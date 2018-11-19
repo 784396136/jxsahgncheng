@@ -1,0 +1,273 @@
+// 模拟数据
+
+// 注册
+Mock.mock('/regist','post',{
+    'errno': '@integer(0,1)',
+    'errmsg':'@ctitle(5,10)'
+})
+// 发送验证码
+Mock.mock('/send','post',{
+    'errno':'@integer(0,1)',
+    'errmsg':'@ctitle(5,10)'
+})
+// 登录
+Mock.mock('/login','post',{
+    'errno':'@integer(0,1)',
+    'errmsg':'@ctitle(5,10)',
+    'token':'@title(64)',
+    'name':'@ctitle(3,8)'
+})
+// 商品分类
+Mock.mock('/categorys','post',{
+    'data|4-13':[
+        {
+            'id|+1':1,
+            'cat_name':'@ctitle(2,8)',
+            'children|5-9':[
+                {
+                    'id|+1':1,
+                    'cat_name':'@ctitle(2,4)',
+                    'children|4-7':[
+                        {
+                            'id|+1':1,
+                            'cat_name':'@ctitle(2,4)'
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+})
+// 楼层
+Mock.mock('/floor','post',{
+    'data|3-10':[
+        {
+            'floor_name':'@ctitle(2,5)',
+            'sub_categorys|7-6':[
+                {
+                    'id|+1':1,
+                    'cat_name':'@ctitle(4,6)'
+                }
+            ],
+            'left_ad':{
+                'img':'@dataImage(208x170)',
+                'link':"@url('http')"
+            },
+            'right_ad':{
+                'img':'@dataImage(310x100)',
+                'link':"@url('http')"
+            },
+            'news|2-5':[
+                {
+                    'id|+1':1,
+                    'title':'@ctitle'
+                }
+            ],
+            'brands|2-9':[
+                {
+                    'id|+1':1,
+                    'logo':'@dataImage(98x35)'
+                }
+            ],
+            'rec_goods|3-8':[
+                {
+                    'id|+1':1,
+                    'goods_name':'@ctitle',
+                    'logo':'@dataImage(130x130)',
+                    'price':'@float(10,10000,0,2)'
+                }
+            ],
+            'rec_categorys|1-4':[
+                {
+                    'id|+1':1,
+                    'cat_name':'@ctitle',
+                    'rec_goods|2-8':[
+                        {
+                            'id|+1':1,
+                            'goods_name':'@ctitle',
+                            'logo':'@dataImage(130x130)',
+                            'price':'@float(10,10000,0,2)'
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+})
+// 商品详情页（接口上有参数必须用正则）
+Mock.mock(/\/goods\/\d+/,'get',{
+    'skuid':'@id',
+    'spuid':'@id',
+    'goods_name':'@ctitle(30,40)',
+    'price':'@float(10,200000,0,2)',
+    'on_sale_date':'@datetime',
+    'comment_count':'@integer(10,20000)',
+    'comment_level':'@integer(1,5)',
+    'cat1_info':{
+        'id':'@id',
+        'cat_name':"@ctitle"
+    },
+    'cat2_info':{
+        'id':'@id',
+        'cat_name':"@ctitle"
+    },
+    'cat3_info':{
+        'id':'@id',
+        'cat_name':"@ctitle"
+    },
+    'logo':{
+        'smlogo':'@dataImage(50x50)',
+        'biglogo':'@dataImage(350x350)',
+        'xbiglogo':'@dataImage(800x800)',
+    },
+    'photos|3-10':[
+        {
+            'smimg':'@dataImage(50x50)',
+            'bigimg':'@dataImage(350x350)',
+            'xbigimg':'@dataImage(800x800)',
+        }
+    ],
+    'description':'@ctitle(100,3000)',
+    'aftersale':'@ctitle(100,3000)',
+    'stock':"@integer(10,3000)",
+    'spec_list':[
+        {
+            'id':1,
+            "spec_name":"颜色",
+            "options":[
+                {
+                    "id":1,
+                    "option_name":"白色"
+                },
+                {
+                    "id":2,
+                    "option_name":"黑色"
+                }
+            ]
+        },
+        {
+            'id':2,
+            "spec_name":"内存",
+            "options":[
+                {
+                    "id":6,
+                    "option_name":"4G"
+                },
+                {
+                    "id":7,
+                    "option_name":"8G"
+                },
+                {
+                    "id":8,
+                    "option_name":"16G"
+                }
+            ]
+        }
+    ],
+    'spec_info':{
+        'id_list':'1:2|2:6',
+        'id_txt':"颜色:黑色|内存:4G"
+    },
+    'sku_list':[
+        {
+            'skuid':'@id',
+            'id_list':'1:2|2:6'
+        },
+        {
+            'skuid':'@id',
+            'id_list':'1:2|2:7'
+        },
+        {
+            'skuid':'@id',
+            'id_list':'1:2|2:8'
+        },
+        {
+            'skuid':'@id',
+            'id_list':'1:1|2:6'
+        },
+        {
+            'skuid':'@id',
+            'id_list':'1:1|2:7'
+        },
+        {
+            'skuid':'@id',
+            'id_list':'1:1|2:8'
+        },
+    ]
+})
+// 模拟评论
+Mock.mock(/\/comments\/\d+/,'get',{
+    'impressions|2-8':[
+        {
+            'title':'@ctitle(3,4)',
+            'count':'@integer(10,300)'
+        }
+    ],
+    'ratio':{
+        'goods':'85',
+        'common':'10',
+        'bad':'5'
+    },
+    'comment_count':'@integer(10,300)',
+    'comments|10':[
+        {
+            'id':'@id',
+            'star':'@integer(1,5)',
+            'created_at':'@datetime(yyyy-MM-dd)',
+            'content':'@ctitle(30,250)',
+            'user':{
+                'id':'@id',
+                'face':'@dataImage(66x66)',
+                'name':'@cname'
+            }
+        }
+    ]
+})
+
+// 购物车商品信息
+Mock.mock('/carts','get',{
+    
+    
+})
+
+// 获取品牌
+Mock.mock(/\/brands\/\d+/,'get',{
+    'data|5-15':[
+        {
+            'id':"@id",
+            'brand_name':'@ctitle(2,8)',
+            'logo':'@dataImage(98x35)'
+        }
+    ]
+})
+
+// 获取规格
+Mock.mock(/\/specifications\/\d+/,'get',{
+    'data|2-5':[
+        {
+            'id':'@id',
+            'spec_name':'@ctitle',
+            'selected':'',
+            'options|5-15':[
+                {
+                    'id':'@id',
+                    'option_name':'@ctitle'
+                }
+            ]
+        }
+    ]
+})
+
+// 搜索商品
+Mock.mock(/\/goods/,'get',{
+    'count':'@integer(100,20000)',
+    'data|40':[
+        {
+            'id':'@id',
+            'goods_name':'@ctitle',
+            'price':'@float(100,20000,0,2)',
+            'logo':'@dataImage(130x130)',
+            'comment_count':"@integer(20,20000)"
+        }
+    ]
+})
